@@ -6,9 +6,7 @@ def card_encryption(number_card: str) -> str:
     :return: str
     """
     encoded_number_card = number_card[0:6] + "******" + number_card[-4:]
-    split_number_card = [
-        encoded_number_card[i : i + 4] for i in range(0, len(number_card), 4)
-    ]
+    split_number_card = [encoded_number_card[i : i + 4] for i in range(0, len(number_card), 4)]
     return " ".join(split_number_card)
 
 
