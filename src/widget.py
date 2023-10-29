@@ -1,5 +1,7 @@
 from _datetime import datetime
 
+from src.masks import account_encryption, card_encryption
+
 
 def card_type_number(user_input: str) -> str:
     """
@@ -10,14 +12,9 @@ def card_type_number(user_input: str) -> str:
     """
     split_str = user_input.split(" ")
     if len(split_str[-1]) == 16:
-        return (
-            f"{' '.join(split_str[0:len(split_str) - 1])} "
-            f"{split_str[-1][0:4]} "
-            f"{split_str[-1][4:6]}** **** "
-            f"{split_str[-1][-4:]}"
-        )
+        return f"{' '.join(split_str[:len(split_str) - 1])} {card_encryption(split_str[-1])}"
     elif len(split_str[-1]) == 20:
-        return f"{' '.join(split_str[0:len(split_str) - 1])} **{split_str[-1][-4:]}"
+        return f"{' '.join(split_str[0:len(split_str) - 1])} {account_encryption(split_str[-1])}"
     else:
         return "Неверный номер счета или карты"
 
@@ -30,4 +27,4 @@ def data_fix(user_input: str) -> str:
     :return: день.месяц.год
     """
     the_data = datetime.fromisoformat(user_input)
-    return f"{the_data.day}.{the_data.month}.{the_data.year}"
+    return the_data.strftime("%d.%m.%Y")
