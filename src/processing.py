@@ -4,9 +4,9 @@ def get_data(data: list[dict], state: str = "EXECUTED") -> list[dict]:
     и значение для ключа state, и возвращает новый список,
     содержащий только те словари, у которых ключ state
     содержит переданное в функцию значение.
-    :param data: list[dict]
-    :param state: str
-    :return: list[dict]
+    :param data: список словарей с данными
+    :param state: выполнено/отмененный
+    :return: список словарей в зависимости от state
     """
     list_data: list = list()
     for data_state in data:
@@ -15,15 +15,15 @@ def get_data(data: list[dict], state: str = "EXECUTED") -> list[dict]:
     return list_data
 
 
-def get_data_by_date(data: list[dict], gradation: str = "убывание") -> list[dict]:
+def get_data_by_date(data: list[dict], reverse: bool = True) -> list[dict]:
     """
     Функция принимает на вход список словарей и возвращает новый список,
     в котором исходные словари отсортированы по убыванию даты.
-    :param data: list[dict]
-    :param gradation: str
-    :return: list[dict]
+    :param data: список словарей с данными
+    :param reverse: True/False (убывание/возрастание)
+    :return: отсортированный список словарей с данными по дате
     """
-    if gradation == "убывание":
+    if reverse:
         return sorted(data, key=lambda x: x['date'], reverse=True)
-    if gradation == "возрастание":
+    if not reverse:
         return sorted(data, key=lambda x: x['date'])
