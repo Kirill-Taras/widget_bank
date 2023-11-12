@@ -1,0 +1,4 @@
+2023-11-11 22:30:12 foo ok
+2023-11-11 22:30:31 foo ok
+2023-11-11 22:30:47 foo error: TypeError. Inputs: (10, '8'), {}
+2023-11-11 22:32:41 foo error: TypeError. Inputs: (10, '111'), {}
