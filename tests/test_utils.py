@@ -49,12 +49,12 @@ def operation() -> list[dict]:
         ("file.json", []),
     ],
 )
-def test_get_json_file(file, expected) -> None:
+def test_get_json_file(file: str, expected: list) -> None:
     json_file = get_json_file(file)
     assert json_file == expected
 
 
-def test_get_operations(operation) -> None:
+def test_get_operations(operation: list[dict]) -> None:
     with pytest.raises(ValueError):
         get_operations(operation[1])
     assert get_operations(operation[0]) == 31957.58

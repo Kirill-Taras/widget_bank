@@ -3,7 +3,7 @@ from json import JSONDecodeError
 from typing import Any
 
 
-def get_json_file(file_json: Any) -> list:
+def get_json_file(file_json: Any) -> list[dict]:
     """
     Функция, которая принимает на вход путь до JSON-файла
     и возвращает список словарей с данными о финансовых транзакциях.

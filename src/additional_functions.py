@@ -1,7 +1,7 @@
 def matching_letters(list_word: list[str]) -> list:
     final_list = list()
     for word in list_word:
-        if word == '':
+        if word == "":
             final_list.append(word)
         elif word[0] == word[-1]:
             final_list.append(word)

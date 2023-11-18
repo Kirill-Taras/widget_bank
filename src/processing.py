@@ -24,6 +24,6 @@ def get_data_by_date(data: list[dict], reverse: bool = True) -> list[dict]:
     :return: отсортированный список словарей с данными по дате
     """
     if reverse:
-        return sorted(data, key=lambda x: x['date'], reverse=True)
+        return sorted(data, key=lambda x: x["date"], reverse=True)
     if not reverse:
-        return sorted(data, key=lambda x: x['date'])
+        return sorted(data, key=lambda x: x["date"])
