@@ -11,7 +11,7 @@ def filter_by_currency(transactions: list[dict], currency: str) -> Generator:
     :yield: операция по заданной валюте.
     """
     for operation in transactions:
-        if operation['operationAmount']['currency']['code'] == currency:
+        if operation["operationAmount"]["currency"]["code"] == currency:
             yield operation
 
 

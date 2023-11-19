@@ -10,7 +10,7 @@ def log(filename: None | str = None) -> Callable:
             now: str = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             try:
                 result = function(*args, **kwargs)
-                log_messenger= f"{now} {function.__name__} ok\n"
+                log_messenger = f"{now} {function.__name__} ok\n"
             except Exception as err:
                 result = None
                 log_messenger = (
