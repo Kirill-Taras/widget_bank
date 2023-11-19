@@ -12,10 +12,10 @@ from src.decorators import log
     [
         (2, 0, " foo error: ZeroDivisionError. Inputs: (2, 0), {}"),
         (2, "2", " foo error: TypeError. Inputs: (2, '2'), {}"),
-        (10, 5, " foo ok")
-    ]
+        (10, 5, " foo ok"),
+    ],
 )
-def test_log(arg1, arg2, expected):
+def test_log(arg1: str | int, arg2: str | int, expected: str) -> None:
     if TEST_MYLOG_PATH.exists():
         os.remove(TEST_MYLOG_PATH)
 
@@ -23,7 +23,7 @@ def test_log(arg1, arg2, expected):
     def foo(x: int, y: int) -> float:
         return x / y
 
-    now: str = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     foo(arg1, arg2)
 
     with open(TEST_MYLOG_PATH) as file:
@@ -39,15 +39,15 @@ def test_log(arg1, arg2, expected):
     [
         (2, 0, " foo error: ZeroDivisionError. Inputs: (2, 0), {}"),
         (2, "2", " foo error: TypeError. Inputs: (2, '2'), {}"),
-        (10, 5, " foo ok")
-    ]
+        (10, 5, " foo ok"),
+    ],
 )
-def test_log_console(arg1, arg2, expected, capsys):
+def test_log_console(arg1: str | int, arg2: str | int, expected: str, capsys) -> None:
     @log()
     def foo(x: int, y: int) -> float:
         return x / y
 
-    now: str = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     foo(arg1, arg2)
 
     expected_log = now + expected
