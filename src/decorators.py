@@ -1,9 +1,10 @@
 from datetime import datetime
 from functools import wraps
+from pathlib import Path
 from typing import Callable, Any
 
 
-def log(filename: None | str = None) -> Callable:
+def log(filename: None | Path = None) -> Callable:
     def wrapped(function: Callable) -> Callable:
         @wraps(function)
         def inner(*args: Any, **kwargs: Any) -> Any:

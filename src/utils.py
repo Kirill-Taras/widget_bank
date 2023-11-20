@@ -1,9 +1,11 @@
 import json
 from json import JSONDecodeError
-from typing import Any
+
+from src.config import LOG_UTILS
+from src.logger import setup_logging
 
 
-def get_json_file(file_json: Any) -> list[dict]:
+def get_json_file(file_json: str) -> list[dict]:
     """
     Функция, которая принимает на вход путь до JSON-файла
     и возвращает список словарей с данными о финансовых транзакциях.
@@ -13,10 +15,12 @@ def get_json_file(file_json: Any) -> list[dict]:
     try:
         with open(file_json, encoding="utf-8") as data:
             operations = json.load(data)
-    except FileNotFoundError:
+        log = setup_logging(__name__, LOG_UTILS)
+        log.info("Файл прочитан")
+    except (FileNotFoundError, JSONDecodeError):
         operations = list()
-    except JSONDecodeError:
-        operations = list()
+        log = setup_logging(__name__, LOG_UTILS)
+        log.error("Ошибка при чтении файла")
     return operations
 
 
@@ -30,6 +34,10 @@ def get_operations(operation: dict) -> float | str:
     :return: сумма транзакции/ошибка ValueError
     """
     if operation["operationAmount"]["currency"]["code"] == "RUB":
+        log = setup_logging(__name__, LOG_UTILS)
+        log.info("Сумма транзакции получена в рублях")
         return float(operation["operationAmount"]["amount"])
     else:
+        log = setup_logging(__name__, LOG_UTILS)
+        log.error("Транзация выполнена не в рублях. Укажите транзакцию в рублях")
         raise ValueError("Транзация выполнена не в рублях. Укажите транзакцию в рублях")
