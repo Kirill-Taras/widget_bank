@@ -5,7 +5,7 @@ from src.config import LOG_UTILS
 from src.logger import setup_logging
 
 
-def get_json_file(file_json: str) -> list[dict]:
+def get_json_file(file_json: str) -> list:
     """
     Функция, которая принимает на вход путь до JSON-файла
     и возвращает список словарей с данными о финансовых транзакциях.
@@ -14,7 +14,7 @@ def get_json_file(file_json: str) -> list[dict]:
     """
     try:
         with open(file_json, encoding="utf-8") as data:
-            operations = json.load(data)
+            operations: list = json.load(data)
         log = setup_logging(__name__, LOG_UTILS)
         log.info("Файл прочитан")
     except (FileNotFoundError, JSONDecodeError):
