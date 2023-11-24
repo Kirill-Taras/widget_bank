@@ -1,5 +1,6 @@
 import os
 from datetime import datetime
+from typing import Any
 
 import pytest
 
@@ -42,7 +43,7 @@ def test_log(arg1: str | int, arg2: str | int, expected: str) -> None:
         (10, 5, " foo ok"),
     ],
 )
-def test_log_console(arg1: str | int, arg2: str | int, expected: str, capsys) -> None:
+def test_log_console(arg1: str | int, arg2: str | int, expected: str, capsys: Any) -> None:
     @log()
     def foo(x: int, y: int) -> float:
         return x / y
