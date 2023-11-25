@@ -1,7 +1,9 @@
+import os
+
 import pytest
 
-from src.config import MYLOG_PATH, TEST_JSON_PATH
-from src.utils import get_json_file, get_operations
+from src.config import MYLOG_PATH, TEST_JSON_PATH, OPERATIONS_PATH, CSV_FILE, XLSX_FILE
+from src.utils import get_json_file, get_operations, get_file
 
 
 @pytest.fixture()
@@ -58,3 +60,14 @@ def test_get_operations(operation: list[dict]) -> None:
     with pytest.raises(ValueError):
         get_operations(operation[1])
     assert get_operations(operation[0]) == 31957.58
+
+
+@pytest.mark.parametrize(
+    "file, expected",
+    [(OPERATIONS_PATH, 441945886), (CSV_FILE, 650703), (XLSX_FILE, 650703)])
+def test_get_file(file, expected):
+    result = get_file(file)
+    if ".json" in os.path.basename(file):
+        assert result[0]["id"] == expected
+    elif ".csv" or ".xlsx" in os.path.basename(file):
+        assert result["id"][0] == expected

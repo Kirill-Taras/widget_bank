@@ -1,5 +1,10 @@
 import json
+import os.path
 from json import JSONDecodeError
+from pathlib import Path
+
+import pandas as pd
+from pandas import DataFrame
 
 from src.config import LOG_UTILS
 from src.logger import setup_logging
@@ -41,3 +46,50 @@ def get_operations(operation: dict) -> float | str:
         log = setup_logging(__name__, LOG_UTILS)
         log.error("Транзация выполнена не в рублях. Укажите транзакцию в рублях")
         raise ValueError("Транзация выполнена не в рублях. Укажите транзакцию в рублях")
+
+
+def get_file(file_path: Path) -> list | DataFrame:
+    """
+    Функция, которая принимает на вход путь к файлам: .csv, .json, .xlsx.
+    И возвращает данные для чтения в python.
+    :param file_path: путь к файлу
+    :return: данные в формате python
+    """
+    file_name: str = os.path.basename(file_path)
+    basename, extension = os.path.splitext(file_name)
+    if extension == ".json":
+        try:
+            with open(file_path, encoding="utf-8") as data:
+                operations: list | DataFrame = json.load(data)
+            log = setup_logging(__name__, LOG_UTILS)
+            log.info("Файл прочитан")
+        except (FileNotFoundError, JSONDecodeError):
+            operations = list()
+            log = setup_logging(__name__, LOG_UTILS)
+            log.error("Ошибка при чтении файла")
+        return operations
+    elif extension == ".csv":
+        try:
+            operations = pd.read_csv(file_path, encoding="utf-8", sep=";")
+            log = setup_logging(__name__, LOG_UTILS)
+            log.info("Файл прочитан")
+        except (FileNotFoundError, UnicodeDecodeError):
+            operations = list()
+            log = setup_logging(__name__, LOG_UTILS)
+            log.error("Ошибка при чтении файла")
+        return operations
+    elif extension == ".xlsx":
+        try:
+            operations = pd.read_excel(file_path)
+            log = setup_logging(__name__, LOG_UTILS)
+            log.info("Файл прочитан")
+        except (FileNotFoundError, UnicodeDecodeError):
+            operations = list()
+            log = setup_logging(__name__, LOG_UTILS)
+            log.error("Ошибка при чтении файла")
+        return operations
+    else:
+        operations = list()
+        log = setup_logging(__name__, LOG_UTILS)
+        log.error("Неверный формат файла")
+        return operations
